@@ -26,8 +26,7 @@ Jsoup 라이브러리 의존성 추가
 
 ### **Gradle**
 
-
-```java
+```gradle
 dependencies {
     implementation 'org.jsoup:jsoup:1.14.3'
 }
@@ -38,14 +37,12 @@ dependencies {
 ### **Maven**
 
 
-```java
+```xml
 <dependency>
     <groupId>org.jsoup</groupId>
     <artifactId>jsoup</artifactId>
     <version>1.14.3</version>
 </dependency>
-
-
 
 ```
 <br/>
@@ -117,7 +114,7 @@ System.out.println("Content: " + content.text());
 #### **예시 HTML 문서**
 
 
-```java
+```html
 <html>
   <head>
     <meta property="og:title" content="Example title">
