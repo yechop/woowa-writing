@@ -1,6 +1,8 @@
-# **Jsoup 활용하기**
+# **Java 개발자를 위한 Jsoup 가이드**
 
 <br/>
+
+이 글은 Java로 웹 크롤링과 HTML 파싱을 위한 글입니다. 기본적인 Java 문법, HTML 구조에 대한 이해가 있으면 더 쉽게 따라올 수 있습니다.
 
 ## **Jsoup 소개**
 
@@ -211,8 +213,8 @@ try {
 ```java
 @Test
 void test() throws IOException {
-   final String url = "https://www.google.com";
-   final Document document = Jsoup.connect(url).get();
+   String url = "https://www.google.com";
+   Document document = Jsoup.connect(url).get();
    assertThat(document.title()).isEqualTo("Google");
 }
 ```
@@ -223,13 +225,13 @@ void test() throws IOException {
 
 ```java
 public class FakeServer {
-    public static int createAndStartFakeServer(final String html) {
+    public static int createAndStartFakeServer(String html) {
         HttpServer server;
         try {
             server = HttpServer.create(new InetSocketAddress(0), 0);
-        } catch (final IOException e) {
+        } catch (IOException e) {
         }
-        final int assignedPort = server.getAddress().getPort();
+        int assignedPort = server.getAddress().getPort();
 
         server.createContext("/test", createHandler(html));
         server.setExecutor(null);
@@ -237,13 +239,13 @@ public class FakeServer {
         return assignedPort;
     }
 
-    private static HttpHandler createHandler(final String html) {
+    private static HttpHandler createHandler(String html) {
         return new HttpHandler() {
             @Override
-            public void handle(final HttpExchange exchange) throws IOException {
+            public void handle(HttpExchange exchange) throws IOException {
                 exchange.getResponseHeaders().set("Content-Type", "text/html; charset=UTF-8");
                 exchange.sendResponseHeaders(200, html.getBytes(StandardCharsets.UTF_8).length);
-                final OutputStream os = exchange.getResponseBody();
+                OutputStream os = exchange.getResponseBody();
                 os.write(html.getBytes(StandardCharsets.UTF_8));
                 os.close();
             }
@@ -253,14 +255,14 @@ public class FakeServer {
 
 @Test
 void test() throws IOException {
-   final String html = "<html><head>" +
+   String html = "<html><head>" +
            "<title>타이틀</title>" +
            "</head><body></body></html>";
-   final int assignedPort = FakeServer.createAndStartFakeServer(html);
-   final String url = "http://localhost:" + assignedPort + "/test";
+   int assignedPort = FakeServer.createAndStartFakeServer(html);
+   String url = "http://localhost:" + assignedPort + "/test";
 
 
-   final Document document = Jsoup.connect(url).get();
+   Document document = Jsoup.connect(url).get();
 
 
    assertThat(document.title()).isEqualTo("타이틀");
